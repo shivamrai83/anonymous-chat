@@ -21,7 +21,6 @@ export default function Home() {
 
     socket.on('chat message', handleMessage);
 
-    // Clean up the listener on component unmount
     return () => {
       socket.off('chat message', handleMessage);
     };
