@@ -1,21 +1,23 @@
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
+import "./globals.css";
 
 import socketIO from 'socket.io-client';
+//@ts-ignore
 const socket = socketIO.connect('http://localhost:4000');
- 
+
 const Home = () => {
   const [userName, setUserName] = useState('');
   const router = useRouter()
    
-  
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
     socket.emit('newUser', { userName, socketID: socket.id });
     router.push('/chat', { scroll: false })
   };
+
   return (
     <form className="home__container" onSubmit={handleSubmit}>
       <h2 className="home__header">Sign in to Open Chat</h2>

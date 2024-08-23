@@ -4,15 +4,25 @@ import React, {useEffect, useState} from 'react';
 import ChatBar from '../../components/chat/ChatBar';
 import ChatBody from '../../components/chat/ChatBody';
 import ChatFooter from '../../components/chat/ChatFooter';
+import "../globals.css";
+
 
 import socketIO from 'socket.io-client';
+// @ts-ignore
 const socket = socketIO.connect('http://localhost:4000');
 
+type Messages = {
+    text: String;
+    id: String;
+    name: String;
+}
+
 const ChatPage = () => {
-    const [messages, setMessages] = useState([]);
-  
+    const [messages, setMessages] = useState<Messages []>([]);
+    
     useEffect(() => {
-      socket.on('messageResponse', (data) => setMessages([...messages, data]));
+        console.log('Socket message response UseEffect', messages);
+      socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
     }, [socket, messages]);
   
     return (
@@ -25,3 +35,5 @@ const ChatPage = () => {
       </div>
     );
   };
+
+  export default ChatPage;
