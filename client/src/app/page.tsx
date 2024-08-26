@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
 import "./globals.css";
 
-import socketIO from 'socket.io-client';
-//@ts-ignore
-const socket = socketIO.connect('http://localhost:4000');
+import socket from '../socket';
 
 const Home = () => {
   const [userName, setUserName] = useState('');

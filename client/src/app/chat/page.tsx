@@ -6,10 +6,7 @@ import ChatBody from '../../components/chat/ChatBody';
 import ChatFooter from '../../components/chat/ChatFooter';
 import "../globals.css";
 
-
-import socketIO from 'socket.io-client';
-// @ts-ignore
-const socket = socketIO.connect('http://localhost:4000');
+import socket from '../../socket';
 
 type Messages = {
     text: String;

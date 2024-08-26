@@ -1,8 +1,6 @@
 import React, { FormEventHandler, useState } from 'react';
-import socketIO from 'socket.io-client';
 import "../../app/globals.css";
-// @ts-ignore
-const socket = socketIO.connect('http://localhost:4000');
+import socket from '../../socket'
 
 const ChatFooter = () => {
   const [message, setMessage] = useState('');
