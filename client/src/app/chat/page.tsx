@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import ChatBar from '../../components/chat/ChatBar';
 import ChatBody from '../../components/chat/ChatBody';
 import ChatFooter from '../../components/chat/ChatFooter';
@@ -9,9 +9,9 @@ import "../globals.css";
 import socket from '../../socket';
 
 type Messages = {
-    text: String;
-    id: String;
-    name: String;
+    text: string;
+    id: string;
+    name: string;
 }
 
 const ChatPage = () => {
@@ -21,10 +21,13 @@ const ChatPage = () => {
         console.log('Socket message response UseEffect', messages);
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
     }, [socket, messages]);
-  
+
+    const users: string[] = useMemo(() => Array.from(new Set(messages.map(user=>user.name))),[messages])
+    console.log('users', users);
+    
     return (
       <div className="chat">
-        <ChatBar />
+        <ChatBar users={users} />
         <div className="chat__main">
           <ChatBody messages={messages} />
           <ChatFooter />
