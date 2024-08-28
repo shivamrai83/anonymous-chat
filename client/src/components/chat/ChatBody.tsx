@@ -17,7 +17,7 @@ const ChatBody = (messages: {messages: Messages[]}) => {
     router.push('/', { scroll: false })
     window.location.reload();
   };
-  console.log('mjjjj', messages);
+  // console.log('mjjjj', messages);
   
   return (
     <>

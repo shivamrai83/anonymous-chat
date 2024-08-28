@@ -11,10 +11,19 @@ const socketIO = require('socket.io')(http, {
       origin: "http://localhost:3000"
   }
 });
-
+let onlineUsers = [];
 //Add this before the app.get() block
 socketIO.on('connection', (socket) => {
-  console.log(`⚡: ${socket.id} user just connected!`);
+  console.log(`⚡: ${socket.id} user just connected!`, onlineUsers);
+
+  socket.on('newUser', (data) => {
+    if(Object.keys(data).length){
+      if(!onlineUsers.some((user)=> user.socketID === data.socketID)){
+        onlineUsers.push(data);
+      };
+    }
+    socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
+  });
 
   socket.on('message', (data) => {
     console.log('listen',data);
@@ -23,7 +32,10 @@ socketIO.on('connection', (socket) => {
 
 
   socket.on('disconnect', () => {
-    console.log('🔥: A user disconnected');
+    onlineUsers = onlineUsers.filter((user) => user.socketID !== socket.id)
+    socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
+    console.log('🔥: A user disconnected', onlineUsers);
+
   });
 });
 

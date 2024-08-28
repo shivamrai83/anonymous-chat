@@ -16,18 +16,21 @@ type Messages = {
 
 const ChatPage = () => {
     const [messages, setMessages] = useState<Messages []>([]);
+    const [activeUsers, setActiveUsers] = useState<string []>([]);
     
     useEffect(() => {
-        console.log('Socket message response UseEffect', messages);
+      console.log('Socket message response UseEffect', messages);
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
+      socket.on('Online-Users', (data: any) => setActiveUsers([...data]));
     }, [socket, messages]);
 
-    const users: string[] = useMemo(() => Array.from(new Set(messages.map(user=>user.name))),[messages])
-    console.log('users', users);
+    useEffect(()=>{
+      socket.emit('newUser', []);
+    },[])
     
     return (
       <div className="chat">
-        <ChatBar users={users} />
+        <ChatBar users={activeUsers} />
         <div className="chat__main">
           <ChatBody messages={messages} />
           <ChatFooter />
