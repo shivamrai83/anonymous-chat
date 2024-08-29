@@ -1,6 +1,7 @@
-import React, { Key } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
 import "../../app/globals.css";
+import socket from '../../socket';
 
 
 type Messages = {
@@ -10,14 +11,17 @@ type Messages = {
 }
 
 const ChatBody = (messages: {messages: Messages[]}) => {
-    const router = useRouter()
+  const router = useRouter();
+  const [typingUser, setTypingUser] = useState('');
 
   const handleLeaveChat = () => {
     localStorage.removeItem('userName');
     router.push('/', { scroll: false })
     window.location.reload();
   };
-  // console.log('mjjjj', messages);
+  useEffect(()=>{
+    socket.on('typing', (data: string)=> setTypingUser(data))
+  },[socket])
   
   return (
     <>
@@ -48,7 +52,7 @@ const ChatBody = (messages: {messages: Messages[]}) => {
         )}
 
         <div className="message__status">
-          <p>Someone is typing...</p>
+          <p>{typingUser.includes(`${localStorage.getItem('userName')}`) ? '' : typingUser}</p>
         </div>
       </div>
     </>

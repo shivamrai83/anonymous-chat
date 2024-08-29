@@ -25,6 +25,10 @@ socketIO.on('connection', (socket) => {
     socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
   });
 
+  socket.on('typing', (data) => {
+    socketIO.emit('typing', data)
+  })
+
   socket.on('message', (data) => {
     console.log('listen',data);
     socketIO.emit('messageResponse', data);

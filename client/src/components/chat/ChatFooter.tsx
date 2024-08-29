@@ -1,9 +1,11 @@
-import React, { FormEventHandler, useState } from 'react';
+import React, { FormEventHandler, ChangeEvent, useState } from 'react';
 import "../../app/globals.css";
-import socket from '../../socket'
+import socket from '../../socket';
+import { time } from 'console';
 
 const ChatFooter = () => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<string>('');
+  const [timer, setTimer] = useState<number | null>(null);
 
   const handleSendMessage: FormEventHandler<HTMLFormElement> = (e ) => {
     e.preventDefault();
@@ -18,6 +20,15 @@ const ChatFooter = () => {
     setMessage('');
   };
 
+ const handleOnchange = (e: ChangeEvent<HTMLInputElement>) => {
+  socket.emit('typing',  `${localStorage.getItem('userName') || 'Someone'} is typing`)
+  clearTimeout(timer);
+  const timeout = setTimeout(() => {
+    socket.emit('typing', '')
+  }, 1000)
+  setTimer(timeout);
+  setMessage(e.target.value);
+ };
 
   return (
     <div className="chat__footer">
@@ -27,7 +38,7 @@ const ChatFooter = () => {
           placeholder="Write message"
           className="message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleOnchange}
         />
         <button className="sendBtn">SEND</button>
       </form>
