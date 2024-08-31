@@ -21,12 +21,14 @@ const ChatPage = () => {
     useEffect(() => {
       console.log('Socket message response UseEffect', messages);
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
-      socket.on('Online-Users', (data: any) => setActiveUsers([...data]));
+      socket.on('Online-Users', (data: any) => setActiveUsers(data));
     }, [socket, messages]);
 
     useEffect(()=>{
+      console.log('socket changed');
+      
       socket.emit('newUser', []);
-    },[])
+    },[socket])
     
     return (
       <div className="chat">
