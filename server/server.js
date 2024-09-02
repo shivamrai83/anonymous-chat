@@ -1,6 +1,8 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const app = express();
-const PORT = 4000;
+const PORT = process.env.BACKEND_PORT;
 
 //New imports
 const http = require('http').Server(app);
@@ -8,7 +10,7 @@ const cors = require('cors');
 
 const socketIO = require('socket.io')(http, {
   cors: {
-      origin: "http://localhost:3000"
+      origin: process.env.SOCKET_CLIENT
   }
 });
 let onlineUsers = [];
