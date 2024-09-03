@@ -2,7 +2,7 @@
 
 import socketIO from 'socket.io-client';
 
-const socket = socketIO.connect('http://localhost:4000');
-console.log("Socket Instance***", socket);
+const socket = socketIO.connect(process.env.SOCKET_SERVER);
+console.log("Socket Instance***", socket, process.env.SOCKET_SERVER);
 
 export default socket;
