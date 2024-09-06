@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
 import "./globals.css";
 
@@ -9,6 +9,12 @@ const Home = () => {
   const [userName, setUserName] = useState('');
   const router = useRouter()
    
+  useEffect(()=>{
+    if(localStorage.getItem('userName')){
+      socket.emit('newUser', { userName, socketID: socket.id });
+    }
+  }, [])
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
