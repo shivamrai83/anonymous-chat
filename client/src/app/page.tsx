@@ -2,41 +2,36 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
 import "./globals.css";
-
-import socket from '../socket';
-
+import Card from '../components/Card/card'
 const Home = () => {
-  const [userName, setUserName] = useState('');
-  const router = useRouter()
-   
-  useEffect(()=>{
-    if(localStorage.getItem('userName')){
-      socket.emit('newUser', { userName, socketID: socket.id });
-    }
-  }, [])
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    localStorage.setItem('userName', userName);
-    socket.emit('newUser', { userName, socketID: socket.id });
-    router.push('/chat', { scroll: false })
-  };
+  const cardDetails = [
+    {
+      image: '',
+      title: 'Group Chat',
+      description: 'You can use the group chat link to share it with your friends and have personal communication.',
+    },
+    {
+      image: '',
+      title: 'Personal Chat',
+      description: 'You can Use this Room for Private Chat with your Friend.',
+    },
+    {
+      image: '',
+      title: 'Global Chat',
+      description: 'Any one who is avilable can use this to explore with other people.',
+    }
+  ]
 
   return (
-    <form className="home__container" onSubmit={handleSubmit}>
-      <h2 className="home__header">Sign in to Open Chat</h2>
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        minLength={6}
-        name="username"
-        id="username"
-        className="username__input"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
-      />
-      <button className="home__cta">SIGN IN</button>
-    </form>
+    <div className='home__container'>
+        <h1 className='select__chat'>Select Type of Chat </h1>
+        <div className='card__container'>
+          {
+            cardDetails.map((card) =>  <Card cardDetails={card}/>)
+          }
+        </div>
+    </div>
   );
 };
 

@@ -1,9 +1,9 @@
 "use client";
 
 import React, {useEffect, useState, useMemo} from 'react';
-import ChatBar from '../../components/chat/ChatBar';
-import ChatBody from '../../components/chat/ChatBody';
-import ChatFooter from '../../components/chat/ChatFooter';
+import ChatBar from '../../components/Chat/ChatBar';
+import ChatBody from '../../components/Chat/ChatBody';
+import ChatFooter from '../../components/Chat/ChatFooter';
 import "../globals.css";
 
 import socket from '../../socket';
