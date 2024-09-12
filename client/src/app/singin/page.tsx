@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
-import "./globals.css";
+import "../globals.css";
 
 import socket from '../../socket';
 

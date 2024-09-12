@@ -5,20 +5,24 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/navigation'
 
 type CardDetails = {
   image: string,
   title: string,
-  description: string
+  description: string,
+  path: string
 }
 
 type MediaCardProps = {
   cardDetails: CardDetails
 }
 
-export default function MediaCard({ cardDetails }: MediaCardProps ) {
+export default function MediaCard({ cardDetails }: MediaCardProps, key: number ) {
+  const router = useRouter()
+
   return (
-    <Card sx={{ maxWidth: 345, margin: 8 }}>
+    <Card key={key} sx={{ maxWidth: 345, margin: 8 }}>
       <CardMedia
         sx={{ height: 140 }}
         image="/static/images/cards/contemplative-reptile.jpg"
@@ -33,8 +37,8 @@ export default function MediaCard({ cardDetails }: MediaCardProps ) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Join Chat</Button>
-        <Button size="small">Learn More</Button>
+        <Button onClick={() => router.push(cardDetails.path, { scroll: false })} size="small">Join Chat</Button>
+        {/* <Button size="small">Learn More</Button> */}
       </CardActions>
     </Card>
   );

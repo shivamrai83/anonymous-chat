@@ -17,7 +17,7 @@ const ChatBody = (messages: {messages: Messages[]}) => {
   const handleLeaveChat = () => {
     localStorage.removeItem('userName');
     router.push('/', { scroll: false })
-    window.location.reload();
+    // window.location.reload();
   };
   useEffect(()=>{
     socket.on('typing', (data: string)=> setTypingUser(data))

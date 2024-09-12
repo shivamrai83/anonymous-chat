@@ -1,7 +1,6 @@
 import React, { FormEventHandler, ChangeEvent, useState } from 'react';
 import "../../app/globals.css";
 import socket from '../../socket';
-import { time } from 'console';
 
 const ChatFooter = () => {
   const [message, setMessage] = useState<string>('');
