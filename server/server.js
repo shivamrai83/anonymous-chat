@@ -19,8 +19,11 @@ socketIO.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`, onlineUsers);
 
   socket.on('newUser', (data) => {
+    console.log('inside new User', data)
     if(Object.keys(data).length){
+      console.log('inside new User Object.keys(data).length',Object.keys(data).length, data)
       if(!onlineUsers.some((user)=> user.socketID === data.socketID)){
+        console.log('inside new User if', data)
         onlineUsers.push(data);
       };
     }
@@ -37,11 +40,10 @@ socketIO.on('connection', (socket) => {
   });
 
 
-  socket.on('disconnect', () => {
-    onlineUsers = onlineUsers.filter((user) => user.socketID !== socket.id)
+  socket.on('disconnect', (socketId) => {
+    onlineUsers = onlineUsers.filter((user) => user.socketID !== (socketId || socket.id))
     socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
     console.log('🔥: A user disconnected', onlineUsers);
-
   });
 });
 

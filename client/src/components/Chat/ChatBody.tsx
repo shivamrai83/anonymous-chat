@@ -16,6 +16,7 @@ const ChatBody = (messages: {messages: Messages[]}) => {
 
   const handleLeaveChat = () => {
     localStorage.removeItem('userName');
+    socket.emit('disconnect', socket.id)
     router.push('/', { scroll: false })
     // window.location.reload();
   };
