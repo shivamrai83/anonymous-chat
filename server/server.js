@@ -39,9 +39,15 @@ socketIO.on('connection', (socket) => {
     socketIO.emit('messageResponse', data);
   });
 
+  socket.on('Disconnect-User',(socketId)=>{
+    onlineUsers = onlineUsers.filter((user) => user.socketID !== socketId)
+    socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
+    console.log('🔥: A user disconnected', onlineUsers);
+  })
 
-  socket.on('disconnect', (socketId) => {
-    onlineUsers = onlineUsers.filter((user) => user.socketID !== (socketId || socket.id))
+
+  socket.on('disconnect', () => {
+    onlineUsers = onlineUsers.filter((user) => user.socketID !== socket.id)
     socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
     console.log('🔥: A user disconnected', onlineUsers);
   });

@@ -12,15 +12,18 @@ type Messages = {
 
 const ChatBody = (messages: {messages: Messages[]}) => {
   const router = useRouter();
-  const [typingUser, setTypingUser] = useState('');
+  const [typingUser, setTypingUser] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
 
   const handleLeaveChat = () => {
     localStorage.removeItem('userName');
-    socket.emit('disconnect', socket.id)
+    socket.emit('Disconnect-User', socket.id)
     router.push('/', { scroll: false })
     // window.location.reload();
   };
   useEffect(()=>{
+      //client side render to set local storage
+    setUserName(localStorage.getItem('userName') || '');
     socket.on('typing', (data: string)=> setTypingUser(data))
   },[socket])
   
@@ -53,7 +56,7 @@ const ChatBody = (messages: {messages: Messages[]}) => {
         )}
 
         <div className="message__status">
-          <p>{typingUser.includes(`${localStorage.getItem('userName')}`) ? '' : typingUser}</p>
+          <p>{typingUser.includes(userName) ? '' : typingUser}</p>
         </div>
       </div>
     </>
