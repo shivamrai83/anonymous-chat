@@ -1,7 +1,6 @@
 import React from 'react';
 import "../../app/globals.css";
 
-// Define the type for the props
 interface ChatBarProps {
   users: string[];
 }

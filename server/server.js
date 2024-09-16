@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const PORT = process.env.BACKEND_PORT;
 
-//New imports
 const http = require('http').Server(app);
 const cors = require('cors');
 
@@ -14,7 +13,7 @@ const socketIO = require('socket.io')(http, {
   }
 });
 let onlineUsers = [];
-//Add this before the app.get() block
+
 socketIO.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`, onlineUsers);
 
