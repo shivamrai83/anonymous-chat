@@ -38,7 +38,6 @@ export default function MediaCard({ cardDetails }: MediaCardProps, key: number )
       </CardContent>
       <CardActions>
         <Button onClick={() => router.push(cardDetails.path, { scroll: false })} size="small">Join Chat</Button>
-        {/* <Button size="small">Learn More</Button> */}
       </CardActions>
     </Card>
   );
