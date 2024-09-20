@@ -1,11 +1,14 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation'
 import "../globals.css";
 
 import socket from '../../socket';
+import { AppContext } from '../context/AppContext';
 
 const Home = () => {
+  const { chatType } = React.useContext(AppContext);
+
   const [userName, setUserName] = useState('');
   const router = useRouter()
    
@@ -19,7 +22,7 @@ const Home = () => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
     socket.emit('newUser', { userName, socketID: socket.id });
-    router.push('/chat', { scroll: false })
+    router.push(`/chat${chatType}`, { scroll: false })
   };
 
   return (

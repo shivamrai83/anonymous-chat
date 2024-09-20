@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation'
 
+import { AppContext } from '@/app/context/AppContext';
+
 type CardDetails = {
   image: string,
   title: string,
@@ -20,6 +22,12 @@ type MediaCardProps = {
 
 export default function MediaCard({ cardDetails }: MediaCardProps, key: number ) {
   const router = useRouter()
+  const { setChatType } = React.useContext(AppContext);
+
+  function handleClick() {
+    setChatType(cardDetails.path);
+    router.push('/singin', { scroll: false })
+  }
 
   return (
     <Card key={key} sx={{ maxWidth: 345, margin: 8 }}>
@@ -37,7 +45,7 @@ export default function MediaCard({ cardDetails }: MediaCardProps, key: number )
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={() => router.push(cardDetails.path, { scroll: false })} size="small">Join Chat</Button>
+        <Button onClick={handleClick} size="small">Join Chat</Button>
       </CardActions>
     </Card>
   );

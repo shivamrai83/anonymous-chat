@@ -1,12 +1,12 @@
 "use client";
 
-import React, {useEffect, useState, useMemo} from 'react';
-import ChatBar from '../../components/Chat/ChatBar';
-import ChatBody from '../../components/Chat/ChatBody';
-import ChatFooter from '../../components/Chat/ChatFooter';
-import "../globals.css";
+import React, {useEffect, useState} from 'react';
+import ChatBar from '../../../components/Chat/ChatBar';
+import ChatBody from '../../../components/Chat/ChatBody';
+import ChatFooter from '../../../components/Chat/ChatFooter';
+import "../../globals.css";
 
-import socket from '../../socket';
+import socket from '../../../socket';
 
 type Messages = {
     text: string;
