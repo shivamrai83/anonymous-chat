@@ -17,13 +17,13 @@ const ChatBody = (messages: {messages: Messages[]}) => {
 
   const handleLeaveChat = () => {
     localStorage.removeItem('userName');
-    socket.emit('Disconnect-User', socket.id)
+    socket.emit('GLOBAL_DISCONNECT_USER', socket.id)
     router.push('/', { scroll: false })
   };
   useEffect(()=>{
       //client side render to set local storage
     setUserName(localStorage.getItem('userName') || '');
-    socket.on('typing', (data: string)=> setTypingUser(data))
+    socket.on('GLOBAL_TYPING', (data: string)=> setTypingUser(data))
   },[socket])
   
   return (

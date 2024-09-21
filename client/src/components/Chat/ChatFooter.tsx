@@ -9,7 +9,7 @@ const ChatFooter = () => {
   const handleSendMessage: FormEventHandler<HTMLFormElement> = (e ) => {
     e.preventDefault();
     if (message.trim() && localStorage.getItem('userName')) {
-      socket.emit('message', {
+      socket.emit('GLOBAL_MESSAGE', {
         text: message,
         name: localStorage.getItem('userName'),
         id: `${socket.id}${Math.random()}`,
@@ -20,10 +20,10 @@ const ChatFooter = () => {
   };
 
  const handleOnchange = (e: ChangeEvent<HTMLInputElement>) => {
-  socket.emit('typing',  `${localStorage.getItem('userName') || 'Someone'} is typing`)
+  socket.emit('GLOBAL_TYPING',  `${localStorage.getItem('userName') || 'Someone'} is typing`)
   clearTimeout(timer);
   const timeout = setTimeout(() => {
-    socket.emit('typing', '')
+    socket.emit('GLOBAL_TYPING', '')
   }, 1000)
   setTimer(timeout);
   setMessage(e.target.value);

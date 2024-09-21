@@ -14,14 +14,14 @@ const Home = () => {
    
   useEffect(()=>{
     if(localStorage.getItem('userName')){
-      socket.emit('newUser', { userName, socketID: socket.id });
+      socket.emit('GLOBAL_NEW_USER', { userName, socketID: socket.id });
     }
   }, [])
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
-    socket.emit('newUser', { userName, socketID: socket.id });
+    socket.emit('GLOBAL_NEW_USER', { userName, socketID: socket.id });
     router.push(`/chat${chatType}`, { scroll: false })
   };
 

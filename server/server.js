@@ -17,37 +17,34 @@ let onlineUsers = [];
 socketIO.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`, onlineUsers);
 
-  socket.on('newUser', (data) => {
-    console.log('inside new User', data)
+  socket.on('GLOBAL_NEW_USER', (data) => {
     if(Object.keys(data).length){
-      console.log('inside new User Object.keys(data).length',Object.keys(data).length, data)
       if(!onlineUsers.some((user)=> user.socketID === data.socketID)){
-        console.log('inside new User if', data)
         onlineUsers.push(data);
       };
     }
-    socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
+    socketIO.emit('GLOBAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
   });
 
-  socket.on('typing', (data) => {
-    socketIO.emit('typing', data)
+  socket.on('GLOBAL_TYPING', (data) => {
+    socketIO.emit('GLOBAL_TYPING', data)
   })
 
-  socket.on('message', (data) => {
+  socket.on('GLOBAL_MESSAGE', (data) => {
     console.log('listen',data);
     socketIO.emit('messageResponse', data);
   });
 
-  socket.on('Disconnect-User',(socketId)=>{
+  socket.on('GLOBAL_DISCONNECT_USER',(socketId)=>{
     onlineUsers = onlineUsers.filter((user) => user.socketID !== socketId)
-    socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
+    socketIO.emit('GLOBAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
     console.log('🔥: A user disconnected', onlineUsers);
   })
 
 
   socket.on('disconnect', () => {
     onlineUsers = onlineUsers.filter((user) => user.socketID !== socket.id)
-    socketIO.emit('Online-Users', onlineUsers.map(user => user.userName));
+    socketIO.emit('GLOBAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
     console.log('🔥: A user disconnected', onlineUsers);
   });
 });
