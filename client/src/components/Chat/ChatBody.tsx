@@ -1,25 +1,22 @@
 import React, { Key, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'
 import "../../app/globals.css";
 import socket from '../../socket';
 
 
 type Messages = {
-    text: String;
-    id: String;
-    name: String;
+  text: String;
+  id: String;
+  name: String;
+}
+interface ChatBodyProps {
+  messages: Messages[];
+  handleLeaveChat: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ChatBody = (messages: {messages: Messages[]}) => {
-  const router = useRouter();
+const ChatBody: React.FC<ChatBodyProps> = (props) => {
   const [typingUser, setTypingUser] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
 
-  const handleLeaveChat = () => {
-    localStorage.removeItem('userName');
-    socket.emit('GLOBAL_DISCONNECT_USER', socket.id)
-    router.push('/', { scroll: false })
-  };
   useEffect(()=>{
       //client side render to set local storage
     setUserName(localStorage.getItem('userName') || '');
@@ -30,13 +27,13 @@ const ChatBody = (messages: {messages: Messages[]}) => {
     <>
       <header className="chat__mainHeader">
         <p>Hangout with Colleagues</p>
-        <button className="leaveChat__btn" onClick={handleLeaveChat}>
+        <button className="leaveChat__btn" onClick={props.handleLeaveChat}>
           LEAVE CHAT
         </button>
       </header>
 
       <div className="message__container">
-        {messages.messages.map((message) =>
+        {props.messages.map((message) =>
           message.name === localStorage.getItem('userName') ? (
             <div className="message__chats" key={message.id as Key}>
               <p className="sender__name">You</p>

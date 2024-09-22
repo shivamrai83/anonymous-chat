@@ -14,20 +14,20 @@ const Home = () => {
    
   useEffect(()=>{
     if(localStorage.getItem('userName')){
-      socket.emit('GLOBAL_NEW_USER', { userName, socketID: socket.id });
+      socket.emit(`${chatType.toUpperCase().replace('/', '')}_NEW_USER`, { userName, socketID: socket.id });
     }
   }, [])
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
-    socket.emit('GLOBAL_NEW_USER', { userName, socketID: socket.id });
+    socket.emit(`${chatType.toUpperCase().replace('/', '')}_NEW_USER`, { userName, socketID: socket.id });
     router.push(`/chat${chatType}`, { scroll: false })
   };
 
   return (
     <form className="home__container" onSubmit={handleSubmit}>
-      <h2 className="home__header">Sign in to Open Chat</h2>
+      <h2 className="home__header">Sign in to {chatType.replace('/', '')} Chat</h2>
       <label htmlFor="username">Username</label>
       <input
         type="text"

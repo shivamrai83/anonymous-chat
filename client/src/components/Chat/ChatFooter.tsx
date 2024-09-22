@@ -1,43 +1,23 @@
-import React, { FormEventHandler, ChangeEvent, useState } from 'react';
+import React, { FormEventHandler, ChangeEventHandler } from 'react';
 import "../../app/globals.css";
 import socket from '../../socket';
 
-const ChatFooter = () => {
-  const [message, setMessage] = useState<string>('');
-  const [timer, setTimer] = useState<number | null>(null);
+interface ChatFooterProps {
+  textMessage: string;
+  handleSendMessage: FormEventHandler<HTMLFormElement>;
+  handleOnchange: ChangeEventHandler<HTMLInputElement>
+}
 
-  const handleSendMessage: FormEventHandler<HTMLFormElement> = (e ) => {
-    e.preventDefault();
-    if (message.trim() && localStorage.getItem('userName')) {
-      socket.emit('GLOBAL_MESSAGE', {
-        text: message,
-        name: localStorage.getItem('userName'),
-        id: `${socket.id}${Math.random()}`,
-        socketID: socket.id,
-      });
-    }
-    setMessage('');
-  };
-
- const handleOnchange = (e: ChangeEvent<HTMLInputElement>) => {
-  socket.emit('GLOBAL_TYPING',  `${localStorage.getItem('userName') || 'Someone'} is typing`)
-  clearTimeout(timer);
-  const timeout = setTimeout(() => {
-    socket.emit('GLOBAL_TYPING', '')
-  }, 1000)
-  setTimer(timeout);
-  setMessage(e.target.value);
- };
-
+const ChatFooter: React.FC<ChatFooterProps> = (props) => {
   return (
     <div className="chat__footer">
-      <form className="form" onSubmit={handleSendMessage}>
+      <form className="form" onSubmit={props.handleSendMessage}>
         <input
           type="text"
           placeholder="Write message"
           className="message"
-          value={message}
-          onChange={handleOnchange}
+          value={props.textMessage}
+          onChange={props.handleOnchange}
         />
         <button className="sendBtn">SEND</button>
       </form>
