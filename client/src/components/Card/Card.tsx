@@ -26,7 +26,7 @@ export default function MediaCard({ cardDetails }: MediaCardProps, key: number )
 
   function handleClick() {
     setChatType(cardDetails.path);
-    router.push('/singin', { scroll: false })
+    router.push(`/chat${cardDetails.path}/singin`, { scroll: false })
   }
 
   return (
