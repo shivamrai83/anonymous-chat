@@ -7,17 +7,24 @@ import "../../../globals.css";
 import socket from '../../../../socket';
 import { AppContext } from '../../../context/AppContext';
 
-const Home = () => {
-  const { chatType } = useContext(AppContext);
+const SingIn = () => {
+  const { chatType, personalChatSocketId } = useContext(AppContext);
   const textRef = useRef<HTMLInputElement>(null);
 
   const [userName, setUserName] = useState('');
   const [showCopy, setShowCopy] = useState(true);
+  const [showLink, setShowLink] = useState(true);
+
   const router = useRouter()
    
   useEffect(()=>{
     if(localStorage.getItem('userName')){
-      socket.emit(`${chatType.toUpperCase().replace('/', '')}_NEW_USER`, { userName, socketID: socket.id });
+      socket.emit(`PERSONAL_NEW_USER`, { userName, socketID: socket.id });
+    } else if(personalChatSocketId === null) {
+      //not a valid link 
+      console.log('not a valid link')
+    } else{
+      setShowLink(false);
     }
   }, [])
 
@@ -36,6 +43,10 @@ const Home = () => {
       const isCopy = copy(copyText);
       if (isCopy) {
         setShowCopy(false);
+        setTimeout(() => {
+          console.log('timeout')
+          setShowLink(false);
+        }, 1000);
       }
     }
   };
@@ -43,7 +54,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="home__container">
+      
+       {!showLink ? <div className="home__container">
         <h2 className="home__header">Sign in to {chatType.replace('/', '')} Chat</h2>
         <label htmlFor="username">Username</label>
         <input
@@ -56,12 +68,15 @@ const Home = () => {
           onChange={(e) => setUserName(e.target.value)}
         />
         <button className="home__cta" onClick={handleSubmit}>SIGN IN</button>
+        </div>
+        :
+        <div className="home__container">
         <h2 className="home__header">Copy the below link to invite for personal chat</h2>
         <input 
           type="text"
           disabled
           ref={textRef}
-          value={'http://localhost:3000/chat/personal/singin'}
+          value={`http://localhost:3000/chat/personal/singin/${socket.id}`}
           name="url"
           id="url"
           className="username__input"
@@ -69,11 +84,11 @@ const Home = () => {
         {showCopy ? 
           <button className='home__cta' onClick={copyToClipboard}>Copy</button>
           : <h2>Successfully Copied...</h2>}
-      </div>
+        </div>}
       {/* <div className="home__container"> */}
       {/* </div> */}
     </>
   );
 };
 
-export default Home;
+export default SingIn;

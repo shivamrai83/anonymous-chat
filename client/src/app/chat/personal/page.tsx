@@ -27,17 +27,17 @@ const ChatPage = () => {
     useEffect(() => {
       console.log('Socket message response UseEffect', messages);
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
-      socket.on('GLOBAL_ONLINE_USERS', (data: any) => setActiveUsers(data));
+      socket.on('PERSONAL_ONLINE_USERS', (data: any) => setActiveUsers(data));
     }, [socket, messages]);
 
     useEffect(()=>{   
-      socket.emit('GLOBAL_NEW_USER', []);
+      socket.emit('PERSONAL_NEW_USER', []);
     },[socket])
     
     // chat body func
     const handleLeaveChat = () => {
       localStorage.removeItem('userName');
-      socket.emit('GLOBAL_DISCONNECT_USER', socket.id)
+      socket.emit('PERSONAL_DISCONNECT_USER', socket.id)
       router.push('/', { scroll: false })
     };
 
@@ -45,7 +45,7 @@ const ChatPage = () => {
     const handleSendMessage: FormEventHandler<HTMLFormElement> = (e ) => {
       e.preventDefault();
       if (textMessage.trim() && localStorage.getItem('userName')) {
-        socket.emit('GLOBAL_MESSAGE', {
+        socket.emit('PERSONAL_MESSAGE', {
           text: textMessage,
           name: localStorage.getItem('userName'),
           id: `${socket.id}${Math.random()}`,
@@ -56,10 +56,10 @@ const ChatPage = () => {
     };
   
    const handleOnchange = (e: ChangeEvent<HTMLInputElement>) => {
-    socket.emit('GLOBAL_TYPING',  `${localStorage.getItem('userName') || 'Someone'} is typing`)
+    socket.emit('PERSONAL_TYPING',  `${localStorage.getItem('userName') || 'Someone'} is typing`)
     if(timer) clearTimeout(timer);
     const timeout = setTimeout(() => {
-      socket.emit('GLOBAL_TYPING', '')
+      socket.emit('PERSONAL_TYPING', '')
     }, 1000)
     setTimer(timeout);
     setTextMessage(e.target.value);
