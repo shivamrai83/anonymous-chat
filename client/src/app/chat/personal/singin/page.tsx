@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useContext, useRef, MutableRefObject } from 'react';
+import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import copy from "copy-to-clipboard";
 
@@ -16,6 +16,7 @@ const SingIn = () => {
   const [showLink, setShowLink] = useState(true);
 
   const router = useRouter()
+  const getJoiningLink = useMemo(()=>`${process.env.NEXT_PUBLIC_CLIENT_URL}/chat/personal/singin/${socket.id}`, [socket.id])
    
   useEffect(()=>{
     if(localStorage.getItem('userName')){
@@ -54,7 +55,7 @@ const SingIn = () => {
 
   return (
     <>
-      
+
        {!showLink ? <div className="home__container">
         <h2 className="home__header">Sign in to {chatType.replace('/', '')} Chat</h2>
         <label htmlFor="username">Username</label>
@@ -76,7 +77,7 @@ const SingIn = () => {
           type="text"
           disabled
           ref={textRef}
-          value={`http://localhost:3000/chat/personal/singin/${socket.id}`}
+          value={getJoiningLink}
           name="url"
           id="url"
           className="username__input"
