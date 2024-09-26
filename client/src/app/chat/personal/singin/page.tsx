@@ -14,9 +14,9 @@ const SingIn = () => {
   const [userName, setUserName] = useState('');
   const [showCopy, setShowCopy] = useState(true);
   const [showLink, setShowLink] = useState(true);
+  const [joinLink, setJoinLink] = useState('');
 
   const router = useRouter()
-  const getJoiningLink = useMemo(()=>`${process.env.NEXT_PUBLIC_CLIENT_URL}/chat/personal/singin/${socket.id}`, [socket.id])
    
   useEffect(()=>{
     if(localStorage.getItem('userName')){
@@ -28,6 +28,10 @@ const SingIn = () => {
       setShowLink(false);
     }
   }, [])
+
+  useEffect(()=>{
+   setJoinLink(`${process.env.NEXT_PUBLIC_CLIENT_URL}/chat/personal/singin/${socket.id}`);
+  }, [socket.id])
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -55,7 +59,6 @@ const SingIn = () => {
 
   return (
     <>
-
        {!showLink ? <div className="home__container">
         <h2 className="home__header">Sign in to {chatType.replace('/', '')} Chat</h2>
         <label htmlFor="username">Username</label>
@@ -77,7 +80,7 @@ const SingIn = () => {
           type="text"
           disabled
           ref={textRef}
-          value={getJoiningLink}
+          value={joinLink}
           name="url"
           id="url"
           className="username__input"
