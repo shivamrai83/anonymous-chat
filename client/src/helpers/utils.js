@@ -9,13 +9,13 @@ export const Card_Details = [
     {
       image: '',
       title: 'Personal Chat',
-      description: 'You can Use this Room for Private Chat with your Friend.',
+      description: 'You can use the personal chat link to share it with your friends and have personal communication.',
       path: '/personal'
     },
     {
       image: '',
       title: 'Global Chat',
-      description: 'Any one who is avilable can use this to explore with other people.',
+      description: 'Any one who is avilable can use this option to explore with other people and make new friends.',
       path: '/global'
     }
   ];
