@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     // Listen for the socket connection
     socket.on('connect', () => {
-      console.log('Socket Connection Established............')
+      console.log('Socket Connection Established...........')
     });
 
     // Cleanup socket listeners
