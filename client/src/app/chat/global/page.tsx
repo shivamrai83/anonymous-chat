@@ -28,11 +28,11 @@ const ChatPage = () => {
       console.log('Socket message response UseEffect', messages);
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
       socket.on('GLOBAL_ONLINE_USERS', (data: any) => setActiveUsers(data));
-    }, [socket, messages]);
+    }, [messages]);
 
     useEffect(()=>{   
       socket.emit('GLOBAL_NEW_USER', []);
-    },[socket])
+    },[])
     
     // chat body func
     const handleLeaveChat = () => {
@@ -69,7 +69,7 @@ const ChatPage = () => {
       <div className="chat">
         <ChatBar users={activeUsers} />
         <div className="chat__main">
-          <ChatBody messages={messages} handleLeaveChat={handleLeaveChat}/>
+          <ChatBody messages={messages} handleLeaveChat={handleLeaveChat} chatType='GLOBAL'/>
           <ChatFooter handleOnchange={handleOnchange} handleSendMessage={handleSendMessage} textMessage={textMessage}/>
         </div>
       </div>

@@ -11,6 +11,7 @@ type Messages = {
 interface ChatBodyProps {
   messages: Messages[];
   handleLeaveChat: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  chatType: string;
 }
 
 const ChatBody: React.FC<ChatBodyProps> = (props) => {
@@ -20,7 +21,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   useEffect(()=>{
       //client side render to set local storage
     setUserName(localStorage.getItem('userName') || '');
-    socket.on('GLOBAL_TYPING', (data: string)=> setTypingUser(data))
+    socket.on(`${props.chatType}_TYPING`, (data: string)=> setTypingUser(data))
   },[socket])
   
   return (

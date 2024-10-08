@@ -89,8 +89,6 @@ const SingIn = () => {
           <button className='home__cta' onClick={copyToClipboard}>Copy</button>
           : <h2>Successfully Copied...</h2>}
         </div>}
-      {/* <div className="home__container"> */}
-      {/* </div> */}
     </>
   );
 };

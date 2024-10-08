@@ -69,7 +69,7 @@ const ChatPage = () => {
       <div className="chat">
         <ChatBar users={activeUsers} />
         <div className="chat__main">
-          <ChatBody messages={messages} handleLeaveChat={handleLeaveChat}/>
+          <ChatBody messages={messages} handleLeaveChat={handleLeaveChat} chatType='PERSONAL'/>
           <ChatFooter handleOnchange={handleOnchange} handleSendMessage={handleSendMessage} textMessage={textMessage}/>
         </div>
       </div>

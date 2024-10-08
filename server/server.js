@@ -13,17 +13,19 @@ const socketIO = require('socket.io')(http, {
   }
 });
 let onlineUsers = [];
+let personalOnlineUsers = [];
 
 socketIO.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`, onlineUsers);
   //GLOBAL CHAT
   socket.on('GLOBAL_NEW_USER', (data) => {
+    console.log('inside global user', data);
     if(Object.keys(data).length){
       if(!onlineUsers.some((user)=> user.socketID === data.socketID)){
         onlineUsers.push(data);
       };
+      socketIO.emit('GLOBAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
     }
-    socketIO.emit('GLOBAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
   });
 
   socket.on('GLOBAL_TYPING', (data) => {
@@ -44,11 +46,11 @@ socketIO.on('connection', (socket) => {
   //PERSONAL CHAT
   socket.on('PERSONAL_NEW_USER', (data) => {
     if(Object.keys(data).length){
-      if(!onlineUsers.some((user)=> user.socketID === data.socketID)){
-        onlineUsers.push(data);
+      if(!personalOnlineUsers.some((user)=> user.socketID === data.socketID)){
+        personalOnlineUsers.push(data);
       };
     }
-    socketIO.emit('PERSONAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
+    socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
   });
 
   socket.on('PERSONAL_TYPING', (data) => {
@@ -61,15 +63,15 @@ socketIO.on('connection', (socket) => {
   });
 
   socket.on('PERSONAL_DISCONNECT_USER',(socketId)=>{
-    onlineUsers = onlineUsers.filter((user) => user.socketID !== socketId)
-    socketIO.emit('PERSONAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
-    console.log('🔥: A user disconnected', onlineUsers);
+    personalOnlineUsers = personalOnlineUsers.filter((user) => user.socketID !== socketId)
+    socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
+    console.log('🔥: A user disconnected', personalOnlineUsers);
   })
 
   socket.on('disconnect', () => {
-    onlineUsers = onlineUsers.filter((user) => user.socketID !== socket.id)
-    socketIO.emit('PERSONAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
-    console.log('🔥: A user disconnected', onlineUsers);
+    personalOnlineUsers = personalOnlineUsers.filter((user) => user.socketID !== socket.id)
+    socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
+    console.log('🔥: A user disconnected', personalOnlineUsers);
   });
 });
 

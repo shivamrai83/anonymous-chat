@@ -22,6 +22,7 @@ const Home = () => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
     socket.emit(`${chatType.toUpperCase().replace('/', '')}_NEW_USER`, { userName, socketID: socket.id });
+    console.log('Socket connection', `${chatType.toUpperCase().replace('/', '')}_NEW_USER`);
     router.push(`/chat${chatType}`, { scroll: false })
   };
 
