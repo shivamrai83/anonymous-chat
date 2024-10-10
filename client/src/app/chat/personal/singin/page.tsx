@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import copy from "copy-to-clipboard";
 
@@ -17,16 +17,18 @@ const SingIn = () => {
   const [joinLink, setJoinLink] = useState('');
 
   const router = useRouter()
-   
+  console.log('personalChatSocketId',personalChatSocketId)
   useEffect(()=>{
-    if(localStorage.getItem('userName')){
-      socket.emit(`PERSONAL_NEW_USER`, { userName, socketID: socket.id });
-    } else if(personalChatSocketId === null) {
-      //not a valid link 
-      console.log('not a valid link')
-    } else{
-      setShowLink(false);
-    }
+  //   if(localStorage.getItem('userName')){
+  //     socket.emit(`PERSONAL_NEW_USER`, { userName, socketID: socket.id });
+  //   } else if(personalChatSocketId === null) {
+  //     //not a valid link 
+  //     console.log('not a valid link')
+  //   } else{
+  if(personalChatSocketId){
+    setShowLink(false);
+  }
+  //   }
   }, [])
 
   useEffect(()=>{
@@ -37,7 +39,7 @@ const SingIn = () => {
     e.preventDefault();
     if(userName){
       localStorage.setItem('userName', userName);
-      socket.emit(`PERSONAL_NEW_USER`, { userName, socketID: socket.id });
+      socket.emit('PERSONAL_NEW_USER', { userName, socketID: socket.id });
       router.push(`/chat/personal`, { scroll: false })
     }
   };

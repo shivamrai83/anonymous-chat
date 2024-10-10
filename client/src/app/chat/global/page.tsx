@@ -28,7 +28,7 @@ const ChatPage = () => {
       console.log('Socket message response UseEffect', messages);
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
       socket.on('GLOBAL_ONLINE_USERS', (data: any) => setActiveUsers(data));
-    }, [messages]);
+    }, [socket, messages]);
 
     useEffect(()=>{   
       socket.emit('GLOBAL_NEW_USER', []);

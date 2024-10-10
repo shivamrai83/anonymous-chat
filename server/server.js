@@ -24,8 +24,8 @@ socketIO.on('connection', (socket) => {
       if(!onlineUsers.some((user)=> user.socketID === data.socketID)){
         onlineUsers.push(data);
       };
-      socketIO.emit('GLOBAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
     }
+    socketIO.emit('GLOBAL_ONLINE_USERS', onlineUsers.map(user => user.userName));
   });
 
   socket.on('GLOBAL_TYPING', (data) => {
@@ -43,8 +43,20 @@ socketIO.on('connection', (socket) => {
     console.log('🔥: A user disconnected', onlineUsers);
   })
 
-  //PERSONAL CHAT
+  socket.on('disconnect', () => {
+    personalOnlineUsers = personalOnlineUsers.filter((user) => user.socketID !== socket.id)
+    socketIO.emit('GLOBAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
+    console.log('🔥: A user disconnected', personalOnlineUsers);
+  });
+
+  //PERSONAL CHAT.
+  socket.on('PERSONAL_SOCKET_ID', (data) => {
+    socketIO.emit('PERSONAL_SOCKETID_TO_CLIENT', data) //find a place to update this at client 
+  })
+
   socket.on('PERSONAL_NEW_USER', (data) => {
+    console.log('inside personal user', data);
+
     if(Object.keys(data).length){
       if(!personalOnlineUsers.some((user)=> user.socketID === data.socketID)){
         personalOnlineUsers.push(data);
@@ -68,11 +80,6 @@ socketIO.on('connection', (socket) => {
     console.log('🔥: A user disconnected', personalOnlineUsers);
   })
 
-  socket.on('disconnect', () => {
-    personalOnlineUsers = personalOnlineUsers.filter((user) => user.socketID !== socket.id)
-    socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
-    console.log('🔥: A user disconnected', personalOnlineUsers);
-  });
 });
 
 app.use(cors());
