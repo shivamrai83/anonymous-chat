@@ -18,6 +18,7 @@ const SingIn = () => {
 
   const router = useRouter()
   console.log('personalChatSocketId',personalChatSocketId)
+  // refresh code
   useEffect(()=>{
   //   if(localStorage.getItem('userName')){
   //     socket.emit(`PERSONAL_NEW_USER`, { userName, socketID: socket.id });
