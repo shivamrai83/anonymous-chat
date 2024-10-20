@@ -49,7 +49,7 @@ socketIO.on('connection', (socket) => {
     console.log('🔥: A user disconnected', personalOnlineUsers);
   });
 
-  //PERSONAL CHAT
+  //PERSONAL CHAT Sockets
   socket.on('PERSONAL_SOCKET_ID', (data) => {
     socketIO.emit('PERSONAL_SOCKETID_TO_CLIENT', data) //find a place to update this at client 
   })
