@@ -9,9 +9,10 @@ const cors = require('cors');
 
 const socketIO = require('socket.io')(http, {
   cors: {
-      origin: process.env.SOCKET_CLIENT
+    origin: process.env.SOCKET_CLIENT
   }
 });
+app.use(cors());
 let onlineUsers = [];
 let personalOnlineUsers = [];
 
@@ -82,7 +83,6 @@ socketIO.on('connection', (socket) => {
 
 });
 
-app.use(cors());
 
 http.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
