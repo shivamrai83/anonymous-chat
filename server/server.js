@@ -84,12 +84,6 @@ socketIO.on('connection', (socket) => {
 
 app.use(cors());
 
-app.get('/api', (req, res) => {
-  res.json({
-    message: 'Hello world',
-  });
-});
-
 http.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
