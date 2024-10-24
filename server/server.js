@@ -52,7 +52,7 @@ socketIO.on('connection', (socket) => {
 
   //PERSONAL CHAT SOCKETS
   socket.on('PERSONAL_SOCKET_ID', (data) => {
-    socketIO.emit('PERSONAL_SOCKETID_TO_CLIENT', data) //find a place to update this at client 
+    socketIO.emit('PERSONAL_SOCKETID_TO_CLIENT', data) //find a place to update this at client ?
   })
 
   socket.on('PERSONAL_NEW_USER', (data) => {
