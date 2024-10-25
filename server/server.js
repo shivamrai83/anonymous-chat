@@ -12,7 +12,9 @@ const socketIO = require('socket.io')(http, {
     origin: process.env.SOCKET_CLIENT
   }
 });
+
 app.use(cors());
+
 let onlineUsers = [];
 let personalOnlineUsers = [];
 
