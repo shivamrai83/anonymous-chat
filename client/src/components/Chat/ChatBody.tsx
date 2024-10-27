@@ -27,7 +27,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   return (
     <>
       <header className="chat__mainHeader">
-        <p>Hangout with Colleagues</p>
+        <p className='chat__header'>Hangout with Colleagues</p>
         <button className="leaveChat__btn" onClick={props.handleLeaveChat}>
           LEAVE CHAT
         </button>
