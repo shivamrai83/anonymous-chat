@@ -1,11 +1,12 @@
 "use client";
 
-import React, {useEffect, useState, FormEventHandler, ChangeEvent} from 'react';
+import React, {useEffect, useState, FormEventHandler, ChangeEvent, useContext} from 'react';
 import { useRouter } from 'next/navigation'
 
 import ChatBar from '../../../components/Chat/ChatBar';
 import ChatBody from '../../../components/Chat/ChatBody';
 import ChatFooter from '../../../components/Chat/ChatFooter';
+import { AppContext } from '@/app/context/AppContext';
 import "../../globals.css";
 
 import socket from '../../../socket';
@@ -21,11 +22,15 @@ const ChatPage = () => {
     const [activeUsers, setActiveUsers] = useState<string []>([]);
     const [textMessage, setTextMessage] = useState<string>('');
     const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
-  
+    const { setPersonalChatSocketId } = useContext(AppContext);
     const router = useRouter();
     
     useEffect(() => {
       console.log('Socket message response UseEffect', messages);
+      socket.on('PERSONAL_SOCKETID_TO_CLIENT', (data: string)=>{
+        console.log('socket triggered*******', socket.id, 'upcomingid',data)
+        setPersonalChatSocketId(data);
+      })
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
       socket.on('PERSONAL_ONLINE_USERS', (data: any) => setActiveUsers(data));
     }, [socket, messages]);

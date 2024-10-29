@@ -52,9 +52,12 @@ socketIO.on('connection', (socket) => {
     console.log('🔥: A user disconnected', personalOnlineUsers);
   });
 
+
   //PERSONAL CHAT SOCKETS
   socket.on('PERSONAL_SOCKET_ID', (data) => {
-    socketIO.emit('PERSONAL_SOCKETID_TO_CLIENT', data) //find a place to update this at client ?
+    const { to, from } = data;
+    console.log('backend trigger', to, from);
+    socketIO.to(to).emit('PERSONAL_SOCKETID_TO_CLIENT', from) //find a place to update this at client ?
   })
 
   socket.on('PERSONAL_NEW_USER', (data) => {

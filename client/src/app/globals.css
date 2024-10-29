@@ -246,6 +246,7 @@ a {
   padding: 10px;
   border-radius: 10px;
   font-size: 15px;
+  color: white;
 }
 .message__sender {
   background-color: rgb(75, 132, 75);
@@ -254,12 +255,18 @@ a {
   border-radius: 10px;
   margin-left: auto;
   font-size: 15px;
+  color:white;
 }
 .message__chats > p {
   font-size: 13px;
 }
-.sender__name {
+.sender__name_you {
   text-align: right;
+  color: white;
+}
+.sender__name_other {
+  color: white;
+
 }
 .message__status {
   position: fixed;
