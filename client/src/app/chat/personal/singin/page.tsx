@@ -18,6 +18,7 @@ const SingIn = () => {
 
   const router = useRouter()
   console.log('personalChatSocketId',personalChatSocketId)
+
   // refresh code
   useEffect(()=>{
   //   if(localStorage.getItem('userName')){
@@ -63,35 +64,36 @@ const SingIn = () => {
   return (
     <>
        {!showLink ? <div className="home__container">
-        <h2 className="home__header">Sign in to {chatType.replace('/', '')} Chat</h2>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          minLength={6}
-          name="username"
-          id="username"
-          className="username__input"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-        <button className="home__cta" onClick={handleSubmit}>SIGN IN</button>
-        </div>
+          <h2 className="home__header">Sign in to {chatType.replace('/', '')} Chat</h2>
+            <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                minLength={6}
+                name="username"
+                id="username"
+                className="username__input"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+            <button className="home__cta" onClick={handleSubmit}>SIGN IN</button>
+          </div>
         :
         <div className="home__container">
-        <h2 className="home__header">Copy the below link to invite for personal chat</h2>
-        <input 
-          type="text"
-          disabled
-          ref={textRef}
-          value={joinLink}
-          name="url"
-          id="url"
-          className="username__input"
-        />
-        {showCopy ? 
-          <button className='home__cta' onClick={copyToClipboard}>Copy</button>
-          : <h2>Successfully Copied...</h2>}
-        </div>}
+          <h2 className="home__header">Copy the below link to invite for personal chat</h2>
+            <input 
+              type="text"
+              disabled
+              ref={textRef}
+              value={joinLink}
+              name="url"
+              id="url"
+              className="username__input"
+            />
+            {showCopy ? 
+              <button className='home__cta' onClick={copyToClipboard}>Copy</button>
+              : <h2>Successfully Copied...</h2>
+            }
+          </div>}
     </>
   );
 };
