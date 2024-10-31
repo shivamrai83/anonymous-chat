@@ -11,12 +11,12 @@ function SocketID() {
   const router = useRouter()
   const { setPersonalChatSocketId, personalChatSocketId } = useContext(AppContext);
   useEffect(() => {
-    console.log('Socket USer', personalChatSocketId);
+    console.log('Socket User', personalChatSocketId);
     debugger;
     if(!personalChatSocketId){
-      console.log('Socket USer 2', personalChatSocketId);
+      console.log('Socket User 2', personalChatSocketId);
       if(socketId){
-        console.log('Socket USer 3', personalChatSocketId);
+        console.log('Socket User 3', personalChatSocketId);
         socket.emit('PERSONAL_SOCKET_ID', {to: socketId, from: socket.id})
         setPersonalChatSocketId(socketId);
         router.push(`/chat/personal/singin`, { scroll: false })
