@@ -11,7 +11,7 @@ function SocketID() {
   const router = useRouter()
   const { setPersonalChatSocketId, personalChatSocketId } = useContext(AppContext);
   useEffect(() => {
-    console.log('Socket Users ', personalChatSocketId);
+    console.log('Socket Users 1', personalChatSocketId);
     debugger;
     if(!personalChatSocketId){
       console.log('Socket Users 2', personalChatSocketId);
