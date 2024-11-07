@@ -12,19 +12,18 @@ function SocketID() {
   const { setPersonalChatSocketId, personalChatSocketId } = useContext(AppContext);
   useEffect(() => {
     console.log('Socket Users 1', personalChatSocketId);
-    debugger;
-    if(!personalChatSocketId){
-      console.log('Socket Users 2', personalChatSocketId);
-      if(socketId){
-        console.log('Socket Users 3', personalChatSocketId);
-        socket.emit('PERSONAL_SOCKET_ID', {to: socketId, from: socket.id})
-        setPersonalChatSocketId(socketId);
-        router.push(`/chat/personal/singin`, { scroll: false })
-      }
-    } else{
-      setSocketExists(true);
-    }
-  },[socketId])
+    console.log('Socket Users 2', personalChatSocketId);
+    if(socketId){
+      console.log('Socket Users 3', personalChatSocketId);
+      socket.emit('PERSONAL_SOCKET_ID', {to: socketId, from: socket.id})
+      setPersonalChatSocketId(socketId);
+      router.push(`/chat/personal/singin`, { scroll: false })
+      // if(!personalChatSocketId){
+      // }
+    // } else{
+    //   setSocketExists(true);
+    // }
+  }},[socketId])
   return <div> {socketExist ? `Already room is occupied with 2 people use Group chat for multiple users` :`Loading... ${socketId}`}</div>;
 }
 
