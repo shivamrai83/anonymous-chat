@@ -54,30 +54,51 @@ socketIO.on('connection', (socket) => {
 
 
   //PERSONAL CHAT SOCKETS
-  socket.on('PERSONAL_SOCKET_ID', (data) => {
-    const { to, from } = data;
-    console.log('backend trigger', to, from);
-    socketIO.to(to).emit('PERSONAL_SOCKETID_TO_CLIENT', from) //find a place to update this at client ?
-  })
+  // socket.on('PERSONAL_SOCKET_ID', (data) => {
+  //   const { to, from } = data;
+  //   console.log('backend trigger', to, from);
+  //   socketIO.to(to).emit('PERSONAL_SOCKETID_TO_CLIENT', from) //find a place to update this at client ?
+  // })
 
-  socket.on('PERSONAL_NEW_USER', (data) => {
-    console.log('inside personal user', data);
+  // socket.on('PERSONAL_NEW_USER', (data) => {
+  //   console.log('inside personal user', data);
 
-    if(Object.keys(data).length){
-      if(!personalOnlineUsers.some((user)=> user.socketID === data.socketID)){
-        personalOnlineUsers.push(data);
-      };
+  //   if(Object.keys(data).length){
+  //     if(!personalOnlineUsers.some((user)=> user.socketID === data.socketID)){
+  //       personalOnlineUsers.push(data);
+  //     };
+  //   }
+  //   socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
+  // });
+
+  // socket.on('PERSONAL_TYPING', (data) => {
+  //   socketIO.emit('PERSONAL_TYPING', data)
+  // })
+
+  // socket.on('PERSONAL_MESSAGE', (data) => {
+  //   console.log('listen',data);
+  //   socketIO.emit('messageResponse', data);
+  // });
+  socket.on('joinRoom', (roomName) => {
+    // Limit the room to exactly two members
+    const room = io.sockets.adapter.rooms.get(roomName);
+
+    if (room && room.size >= 2) {
+      socket.emit('roomError', 'Room is full');
+      return;
     }
-    socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
+
+    socket.join(roomName);
+    console.log(`User ${socket.id} joined room: ${roomName}`);
+    socket.emit('roomJoined', roomName);
   });
 
-  socket.on('PERSONAL_TYPING', (data) => {
-    socketIO.emit('PERSONAL_TYPING', data)
-  })
-
-  socket.on('PERSONAL_MESSAGE', (data) => {
-    console.log('listen',data);
-    socketIO.emit('messageResponse', data);
+  // Handle private messages within a room
+  socket.on('privateMessage', ({ roomName, message }) => {
+    io.to(roomName).emit('privateMessage', {
+      from: socket.id,
+      message,
+    });
   });
 
   socket.on('PERSONAL_DISCONNECT_USER',(socketId)=>{

@@ -5,15 +5,19 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
     const [chatType, setChatType] = useState('');
-    const [personalChatSocketId, setPersonalChatSocketId] = useState(null);
+    // const [personalChatRoomId, setPersonalChatRoomId] = useState(null);
+    const [roomId, setRoomId] = useState(uuidv4());
+    const [socketExist, setSocketExists] = useState(false);
 
   return (
     <AppContext.Provider 
       value={
         { chatType, 
           setChatType,
-          personalChatSocketId,
-          setPersonalChatSocketId,
+          roomId,
+          setRoomId,
+          socketExist,
+          setSocketExists,
         }}>
       {children}
     </AppContext.Provider>

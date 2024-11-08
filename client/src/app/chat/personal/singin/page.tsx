@@ -2,13 +2,14 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import copy from "copy-to-clipboard";
+import { v4 as uuidv4 } from 'uuid';
 
 import "../../../globals.css";
 import socket from '../../../../socket';
 import { AppContext } from '../../../context/AppContext';
 
 const SingIn = () => {
-  const { chatType, personalChatSocketId } = useContext(AppContext);
+  const { chatType, roomId } = useContext(AppContext);
   const textRef = useRef<HTMLInputElement>(null);
 
   const [userName, setUserName] = useState('');
@@ -17,7 +18,7 @@ const SingIn = () => {
   const [joinLink, setJoinLink] = useState('');
 
   const router = useRouter()
-  console.log('personalChatSocketId',personalChatSocketId)
+  console.log('personalChatSocketId', roomId )
 
   // refresh wala code
   useEffect(()=>{
@@ -27,15 +28,25 @@ const SingIn = () => {
   //     //not a valid link 
   //     console.log('not a valid link')
   //   } else{
-  if(personalChatSocketId){
+  //   }
+    socket.on('roomJoined', (room: string) => {
+      console.log('Joined room:', room);
+    });
+    socket.on('roomError', (error: boolean) => {
+      if(error){
+        
+      }
+    });
+  if(roomId){
     setShowLink(false);
   }
-  //   }
   }, [])
 
+  
+
   useEffect(()=>{
-   setJoinLink(`${process.env.NEXT_PUBLIC_CLIENT_URL}/chat/personal/singin/${socket.id}`);
-  }, [socket.id])
+   setJoinLink(`${process.env.NEXT_PUBLIC_CLIENT_URL}/chat/personal/singin/${roomId}`);
+  }, [])
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -46,6 +57,7 @@ const SingIn = () => {
     }
   };
   const copyToClipboard = () => {
+    socket.emit('joinRoom', roomId);
     if (textRef.current) {
       const copyText = textRef.current.value;
       console.log(copyText)
