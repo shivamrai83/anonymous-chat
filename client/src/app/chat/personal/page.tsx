@@ -27,10 +27,6 @@ const ChatPage = () => {
     
     useEffect(() => {
       console.log('Socket message response UseEffect', messages);
-      socket.on('PERSONAL_SOCKETID_TO_CLIENT', (data: string)=>{
-        console.log('socket triggered*******', socket.id, 'upcomingid',data)
-        setPersonalChatSocketId(data);
-      })
       socket.on('messageResponse', (data: any) => setMessages([...messages, data]));
       socket.on('PERSONAL_ONLINE_USERS', (data: any) => setActiveUsers(data));
     }, [socket, messages]);
