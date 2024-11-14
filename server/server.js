@@ -52,6 +52,40 @@ socketIO.on('connection', (socket) => {
     console.log('🔥: A user disconnected', personalOnlineUsers);
   });
 
+  //PERSONAL CHAT SOCKETS
+  socket.on('joinRoom', (roomName) => {
+    // Limit the room to exactly two members
+    const room = io.sockets.adapter.rooms.get(roomName);
+    
+    if (room && room.size >= 2) {
+      socket.emit('roomError', 'Room is full');
+      return;
+    }
+
+    socket.join(roomName);
+    console.log(`User ${socket.id} joined room: ${roomName}`);
+    socket.emit('roomJoined', roomName);
+  });
+
+  // Handle private messages within a room
+  socket.on('privateMessage', ({ roomName, message }) => {
+    io.to(roomName).emit('privateMessage', {
+      from: socket.id,
+      message,
+    });
+  });
+  
+  socket.on('PERSONAL_DISCONNECT_USER', (socketId)=>{
+    personalOnlineUsers = personalOnlineUsers.filter((user) => user.socketID !== socketId)
+    socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
+    console.log('🔥: A user disconnected', personalOnlineUsers);
+  })
+  
+});
+
+http.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
 
   // socket.on('PERSONAL_SOCKET_ID', (data) => {
     //   const { to, from } = data;
@@ -79,37 +113,3 @@ socketIO.on('connection', (socket) => {
             //   socketIO.emit('messageResponse', data);
             // });
             
-  //PERSONAL CHAT SOCKETS
-  socket.on('joinRoom', (roomName) => {
-    // Limit the room to exactly two members
-    const room = io.sockets.adapter.rooms.get(roomName);
-
-    if (room && room.size >= 2) {
-      socket.emit('roomError', 'Room is full');
-      return;
-    }
-
-    socket.join(roomName);
-    console.log(`User ${socket.id} joined room: ${roomName}`);
-    socket.emit('roomJoined', roomName);
-  });
-
-  // Handle private messages within a room
-  socket.on('privateMessage', ({ roomName, message }) => {
-    io.to(roomName).emit('privateMessage', {
-      from: socket.id,
-      message,
-    });
-  });
-
-  socket.on('PERSONAL_DISCONNECT_USER', (socketId)=>{
-    personalOnlineUsers = personalOnlineUsers.filter((user) => user.socketID !== socketId)
-    socketIO.emit('PERSONAL_ONLINE_USERS', personalOnlineUsers.map(user => user.userName));
-    console.log('🔥: A user disconnected', personalOnlineUsers);
-  })
-
-});
-
-http.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
