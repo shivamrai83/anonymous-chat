@@ -42,7 +42,7 @@ const ChatPage = () => {
       router.push('/', { scroll: false })
     };
 
-    // chat footer func
+    // chat footer funcTION
     const handleSendMessage: FormEventHandler<HTMLFormElement> = (e ) => {
       e.preventDefault();
       if (textMessage.trim() && localStorage.getItem('userName')) {
