@@ -25,7 +25,7 @@ const ChatPage = () => {
     }, [socket, messages]);
 
     useEffect(()=>{
-      console.log('socket changed');
+      console.log('socket changed.');
       
       socket.emit('GLOBAL_NEW_USER', []);
     },[socket])
