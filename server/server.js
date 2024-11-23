@@ -55,8 +55,8 @@ socketIO.on('connection', (socket) => {
   //PERSONAL CHAT SOCKETS
   socket.on('joinRoom', (roomName) => {
     // Limit the room to exactly two members
-    const room = io.sockets.adapter.rooms.get(roomName);
-    
+    const room = socketIO.sockets.adapter.rooms.get(roomName);
+    console.log("rooms****", room, roomName);
     if (room && room.size >= 2) {
       socket.emit('roomError', 'Room is full');
       return;

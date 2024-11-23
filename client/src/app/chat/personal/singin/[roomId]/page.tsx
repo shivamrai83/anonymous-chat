@@ -8,7 +8,7 @@ import socket from '../../../../../socket';
 function SocketID() {
   const { roomId } = useParams();
   const router = useRouter()
-  const { setRoomId, socketExist, setSocketExists } = useContext(AppContext);
+  const { setRoomId, socketExist, setSocketExists, setJoinedViaLink } = useContext(AppContext);
   
   useEffect(() => {
     console.log('Socket Users 1', roomId);
@@ -17,6 +17,7 @@ function SocketID() {
       console.log('Socket Users 3', roomId);
       socket.emit('joinRoom', roomId);
       setRoomId(roomId);
+      setJoinedViaLink(true);
       router.push(`/chat/personal/singin`, { scroll: false })
       // if(!personalChatSocketId){
       // }

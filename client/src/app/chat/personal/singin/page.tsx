@@ -2,14 +2,14 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import copy from "copy-to-clipboard";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 import "../../../globals.css";
 import socket from '../../../../socket';
 import { AppContext } from '../../../context/AppContext';
 
 const SingIn = () => {
-  const { chatType, roomId } = useContext(AppContext);
+  const { chatType, roomId, joinedViaLink } = useContext(AppContext);
   const textRef = useRef<HTMLInputElement>(null);
 
   const [userName, setUserName] = useState('');
@@ -34,12 +34,12 @@ const SingIn = () => {
     });
     socket.on('roomError', (error: boolean) => {
       if(error){
-        
+        console.log("error happened******", error);
       }
     });
-  if(roomId){
-    setShowLink(false);
-  }
+    if(joinedViaLink){
+      setShowLink(false);
+    }
   }, [])
 
   

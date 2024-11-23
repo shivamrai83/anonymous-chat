@@ -6,6 +6,7 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
     const [chatType, setChatType] = useState('');
     const [roomId, setRoomId] = useState(uuidv4());
+    const [joinedViaLink, setJoinedViaLink] = useState(false);
     const [socketExist, setSocketExists] = useState(false);
 
   return (
@@ -17,6 +18,8 @@ const AppProvider = ({ children }) => {
           setRoomId,
           socketExist,
           setSocketExists,
+          joinedViaLink,
+          setJoinedViaLink,
         }}>
       {children}
     </AppContext.Provider>
