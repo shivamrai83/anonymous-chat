@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import copy from "copy-to-clipboard";
-// import { v4 as uuidv4 } from 'uuid';
 
 import "../../../globals.css";
 import socket from '../../../../socket';
