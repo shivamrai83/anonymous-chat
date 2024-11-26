@@ -19,11 +19,6 @@ function SocketID() {
       setRoomId(roomId);
       setJoinedViaLink(true);
       router.push(`/chat/personal/singin`, { scroll: false })
-      // if(!personalChatSocketId){
-      // }
-      // } else{
-      //   setSocketExists(true);
-      // }
   }},[roomId])
   useEffect(() => {
 
