@@ -11,10 +11,7 @@ function SocketID() {
   const { setRoomId, socketExist, setSocketExists, setJoinedViaLink } = useContext(AppContext);
   
   useEffect(() => {
-    console.log('Socket Users 1', roomId);
-    console.log('Socket Users 2', roomId);
     if(roomId){
-      console.log('Socket Users 3', roomId);
       socket.emit('joinRoom', roomId);
       setRoomId(roomId);
       setJoinedViaLink(true);
