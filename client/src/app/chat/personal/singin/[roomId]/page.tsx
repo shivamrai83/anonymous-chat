@@ -8,7 +8,7 @@ import socket from '../../../../../socket';
 function SocketID() {
   const { roomId } = useParams();
   const router = useRouter()
-  const { setRoomId, socketExist, setSocketExists, setJoinedViaLink } = useContext(AppContext);
+  const { setRoomId, socketExist, setJoinedViaLink } = useContext(AppContext);
   
   useEffect(() => {
     if(roomId){
